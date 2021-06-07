@@ -1,7 +1,8 @@
 const express = require("express");
 const path = require("path");
+const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-// const methodOverride = require("method-override");
+const methodOverride = require("method-override");
 const Place = require("./models/Place");
 
 //Set up default mongoose connection
@@ -20,6 +21,8 @@ db.once("open", () => {
   console.log("Hey database is connected!!!");
 });
 
+// Load env variables
+dotenv.config({ path: "./config/config.env" });
 
 const app = express();
 
@@ -28,9 +31,9 @@ app.set("views", path.join(__dirname, "views"));
 
 //middleware
 // needed when we want to post a data
-// app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 // override with POST having ?_method=DELETE
-// app.use(methodOverride("_method"));
+app.use(methodOverride("_method"));
 
 // creating new data or products
 app.get("/", (req, res) => {
